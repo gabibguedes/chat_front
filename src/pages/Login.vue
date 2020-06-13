@@ -6,12 +6,12 @@
         </q-card-section>
         <q-card-section>
             <q-form class="forms">
-                <q-input square v-model="username" type="username" label="Username">
+                <q-input square v-model="user.username" type="username" label="Username">
                     <template v-slot:prepend>
                         <q-icon name="alternate_email" />
                     </template>
                 </q-input>
-                <q-input square v-model="password" :type="isPwd ? 'password' : 'text'" label="Senha">
+                <q-input square v-model="user.password" :type="isPwd ? 'password' : 'text'" label="Senha">
                     <template v-slot:prepend>
                         <q-icon name="lock" />
                     </template>
@@ -45,19 +45,17 @@ export default {
   name: 'Login',
   data () {
     return {
-      username: '',
-      password: '',
+      user: {
+        username: '',
+        password: ''
+      },
       isPwd: true
     }
   },
   methods: {
     ...mapActions('userStore', ['login']),
-    async loginAPI () {
-      console.log('loop?')
-      await API.post('api/auth/login/', {
-        username: this.username,
-        password: this.password
-      })
+    loginAPI () {
+      API.post('auth/login/', this.user)
         .then((res) => {
           this.login(res.data)
           this.$q.notify({
