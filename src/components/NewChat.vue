@@ -6,12 +6,12 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input dense v-model="username" autofocus @keyup.enter="prompt = false" />
+          <q-input dense label="Usuário de destino" v-model="username" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancelar" v-close-popup />
-          <q-btn flat label="Iniciar chat" v-on:click="() => $router.push({ name: 'chat' })"/>
+          <q-btn flat label="Cancelar" v-on:click="() => this.close()"/>
+          <q-btn flat label="Iniciar chat" v-on:click="() => this.closeAndChat()"/>
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -22,12 +22,20 @@ export default {
   name: 'NewChat',
   data () {
     return {
-      username: ''
+      username: '',
+      closeValue: 0
     }
   },
   props: [
-    'open'
-  ]
+    'open',
+    'close'
+  ],
+  methods: {
+    closeAndChat () {
+      this.close()
+      this.$router.push({ name: 'chat' })
+    }
+  }
 }
 </script>
 

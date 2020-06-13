@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <new-chat :open="openNewChat" />
+    <new-chat :open="openNewChat" :close="() => openNewChat = false"/>
     <q-list >
       <q-item v-for="contact in contacts" :key="contact.id" class="q-my-sm" clickable  v-on:click="() => $router.push({ name: 'chat' })" v-ripple>
         <q-item-section avatar>

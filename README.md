@@ -1,26 +1,22 @@
-# Chat (chat)
+# Chat Front
 
-A Quasar Framework app
-
-## Install the dependencies
-```bash
-yarn
+## Suba a aplicação
+```
+docker-compose up
 ```
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
-```bash
-quasar dev
+Após o comando o site estará rodando em:
+
+```
+http://localhost:8080/
 ```
 
-### Lint the files
-```bash
-yarn run lint
-```
+## API
 
-### Build the app for production
-```bash
-quasar build
-```
+[Repositório da API](https://github.com/gabibguedes/chat_api)
 
-### Customize the configuration
-See [Configuring quasar.conf.js](https://quasar.dev/quasar-cli/quasar-conf-js).
+## Problemas a serem resolvidos:
+
+- Conexão com a API
+- Armazenamento do token e usuário logado por Vuex
+- Limitar rotas pela autenticação do usuário
