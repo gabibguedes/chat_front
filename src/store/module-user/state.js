@@ -4,8 +4,6 @@ export default function () {
     userID: '',
     username: '',
     firstName: '',
-    lastName: '',
-    page: '',
-    userAuth: false
+    lastName: ''
   }
 }

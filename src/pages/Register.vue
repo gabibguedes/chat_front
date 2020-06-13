@@ -4,8 +4,8 @@
         <q-card-section class="bg-primary">
         <h4 class="text-h5 q-my-md title">Cadastro</h4>
         </q-card-section>
-        <q-card-section>
-            <q-form class="forms">
+        <q-form class="forms" @submit="registerAPI">
+          <q-card-section>
                 <q-input square v-model="user.firstName" type="text" label="Nome"
                   :error-message="this.errors.firstName[0]"
                   :error="this.errors.firstName.length > 0 && (this.user.firstName === this.old.firstName)">
@@ -55,11 +55,11 @@
                       />
                     </template>
                 </q-input>
-            </q-form>
-        </q-card-section>
-        <q-card-actions class="q-px-lg">
-            <q-btn :disabled="emptyFields()" unelevated size="lg" color="primary" class="full-width text-white" label="Entrar" v-on:click="registerAPI()"/>
-        </q-card-actions>
+          </q-card-section>
+          <q-card-actions class="q-px-lg">
+              <q-btn type="submit" :disabled="emptyFields()" unelevated size="lg" color="primary" class="full-width text-white" label="Entrar" v-on:click="registerAPI()"/>
+          </q-card-actions>
+        </q-form>
         <q-card-section class="text-center q-pa-sm">
             <button class="link-button" v-on:click="() => $router.push({ name: 'login' })">
               Já possui cadastro?
@@ -98,28 +98,30 @@ export default {
   methods: {
     ...mapActions('userStore', ['login']),
     registerAPI () {
-      API.post('auth/register/', this.user)
-        .then((res) => {
-          this.old = {}
-          this.login(res.data)
-          this.$q.notify({
-            icon: 'done',
-            color: 'positive',
-            message: 'Você está logado!'
+      if (!this.emptyFields()) {
+        API.post('auth/register/', this.user)
+          .then((res) => {
+            this.old = {}
+            this.login(res.data)
+            this.$q.notify({
+              icon: 'done',
+              color: 'positive',
+              message: 'Você está logado!'
+            })
+            this.$router.push({ name: 'contacts' })
           })
-          this.$router.push({ name: 'contacts' })
-        })
-        .catch((err) => {
-          this.old = JSON.parse(JSON.stringify(this.user))
-          const error = err.response.data
-          this.errors = {
-            firstName: error.first_name ? error.first_name : [],
-            lastName: error.last_name ? error.last_name : [],
-            username: error.username ? error.username : [],
-            password: error.password ? error.password : []
-          }
-          console.log(err.response)
-        })
+          .catch((err) => {
+            this.old = JSON.parse(JSON.stringify(this.user))
+            const error = err.response.data
+            this.errors = {
+              firstName: error.first_name ? error.first_name : [],
+              lastName: error.last_name ? error.last_name : [],
+              username: error.username ? error.username : [],
+              password: error.password ? error.password : []
+            }
+            console.log(err.response)
+          })
+      }
     },
     emptyFields () {
       if (this.user.firstName === '' ||

@@ -5,7 +5,7 @@
         <q-toolbar-title>
           Chat-System
         </q-toolbar-title>
-        <q-btn flat round dense v-on:click="() => $router.push({ name: 'login' })">
+        <q-btn v-if="authStatus" flat round dense v-on:click="logoutAPI()">
           Logout
         </q-btn>
       </q-toolbar>
@@ -17,7 +17,34 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
+import API from '../api'
 export default {
-  name: 'MainLayout'
+  name: 'MainLayout',
+  computed: {
+    ...mapGetters('userStore', ['authStatus', 'getUser'])
+  },
+  methods: {
+    ...mapActions('userStore', ['logout']),
+    logoutAPI () {
+      API.post('/auth/logout/', {}, {
+        headers: {
+          Authorization: `Token ${this.getUser.token}`
+        }
+      })
+        .then((res) => {
+          this.logout()
+          this.$q.notify({
+            icon: 'done',
+            color: 'positive',
+            message: 'Volte sempre!'
+          })
+          this.$router.push({ name: 'login' })
+        })
+        .catch((err) => {
+          console.log(err.response)
+        })
+    }
+  }
 }
 </script>

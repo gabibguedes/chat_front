@@ -22,8 +22,6 @@ const logout = (state) => {
   state.username = ''
   state.firstName = ''
   state.lastName = ''
-  state.page = ''
-  state.userAuth = false
 }
 
 export {
