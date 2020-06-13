@@ -9,6 +9,11 @@ const getUser = (state) => {
   return user
 }
 
+const authStatus = (state) => {
+  return state.userToken && state.userID
+}
+
 export {
-  getUser
+  getUser,
+  authStatus
 }
