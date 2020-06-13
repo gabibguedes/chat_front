@@ -78,7 +78,7 @@ export default {
         })
     },
     emptyFields () {
-      if (this.username === '' || this.password === '') {
+      if (this.user.username === '' || this.user.password === '') {
         return true
       }
       return false
