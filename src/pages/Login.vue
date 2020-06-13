@@ -6,20 +6,27 @@
         </q-card-section>
         <q-card-section>
             <q-form class="forms">
-                <q-input square clearable v-model="username" type="username" label="Username">
+                <q-input square v-model="username" type="username" label="Username">
                     <template v-slot:prepend>
                         <q-icon name="alternate_email" />
                     </template>
                 </q-input>
-                <q-input square clearable v-model="password" type="password" label="Senha">
+                <q-input square v-model="password" :type="isPwd ? 'password' : 'text'" label="Senha">
                     <template v-slot:prepend>
                         <q-icon name="lock" />
+                    </template>
+                    <template v-slot:append>
+                      <q-icon
+                        :name="isPwd ? 'visibility_off' : 'visibility'"
+                        class="cursor-pointer"
+                        @click="isPwd = !isPwd"
+                      />
                     </template>
                 </q-input>
             </q-form>
         </q-card-section>
         <q-card-actions class="q-px-lg">
-            <q-btn unelevated size="lg" color="primary" class="full-width text-white" label="Entrar" v-on:click="() => $router.push({ name: 'contacts' })"/>
+            <q-btn unelevated size="lg" :disabled="emptyFields()" color="primary" class="full-width text-white" label="Entrar" v-on:click="loginAPI()"/>
         </q-card-actions>
         <q-card-section class="text-center q-pa-sm">
             <button class="link-button" v-on:click="() => $router.push({ name: 'register' })">
@@ -31,12 +38,52 @@
 </template>
 
 <script>
+import API from '../api'
+import { mapActions } from 'vuex'
+
 export default {
   name: 'Login',
   data () {
     return {
       username: '',
-      password: ''
+      password: '',
+      isPwd: true
+    }
+  },
+  methods: {
+    ...mapActions('userStore', ['login']),
+    async loginAPI () {
+      console.log('loop?')
+      await API.post('api/auth/login/', {
+        username: this.username,
+        password: this.password
+      })
+        .then((res) => {
+          this.login(res.data)
+          this.$q.notify({
+            icon: 'done',
+            color: 'positive',
+            message: 'Você está logado!'
+          })
+          this.$router.push({ name: 'contacts' })
+        })
+        .catch((err) => {
+          if (err.response.data[0] === 'Invalid username/password. Please try again!') {
+            this.$q.notify({
+              icon: 'error',
+              color: 'negative',
+              message: 'Usuário ou senha incorretos.'
+            })
+          } else {
+            console.log(err.response)
+          }
+        })
+    },
+    emptyFields () {
+      if (this.username === '' || this.password === '') {
+        return true
+      }
+      return false
     }
   }
 }
