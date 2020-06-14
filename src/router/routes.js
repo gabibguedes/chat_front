@@ -24,7 +24,7 @@ const routes = [
         }
       },
       {
-        path: '/chat',
+        path: '/chat/:username',
         name: 'chat',
         component: () => import('pages/Chat.vue'),
         meta: {

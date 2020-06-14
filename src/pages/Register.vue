@@ -7,6 +7,7 @@
         <q-form class="forms" @submit="registerAPI">
           <q-card-section>
                 <q-input square v-model="user.firstName" type="text" label="Nome"
+                  maxlength="100"
                   :error-message="this.errors.firstName[0]"
                   :error="this.errors.firstName.length > 0 && (this.user.firstName === this.old.firstName)">
                     <template v-slot:prepend>
@@ -14,6 +15,7 @@
                     </template>
                 </q-input>
                 <q-input square v-model="user.lastName" type="text" label="Sobrenome"
+                  maxlength="100"
                   :error-message="this.errors.lastName[0]"
                   :error="this.errors.lastName.length > 0 && (this.user.lastName === this.old.lastName)">
                     <template v-slot:prepend>
@@ -21,6 +23,7 @@
                     </template>
                 </q-input>
                 <q-input square v-model="user.username" type="text" label="Username"
+                        maxlength="40"
                         :error-message="this.errors.username[0]"
                         :error="this.errors.username.length > 0 && (this.user.username === this.old.username)">
                     <template v-slot:prepend>
@@ -28,6 +31,7 @@
                     </template>
                 </q-input>
                 <q-input square v-model="user.password"  :type="isPwd1 ? 'password' : 'text'" label="Senha"
+                        maxlength="40"
                         :error-message="this.errors.password[0]"
                         :error="this.errors.password.length > 0 && (this.user.password === this.old.password)">
                     <template v-slot:prepend>
@@ -57,7 +61,7 @@
                 </q-input>
           </q-card-section>
           <q-card-actions class="q-px-lg">
-              <q-btn type="submit" :disabled="emptyFields()" unelevated size="lg" color="primary" class="full-width text-white" label="Entrar" v-on:click="registerAPI()"/>
+              <q-btn type="submit" :disabled="emptyFields()" unelevated size="lg" color="primary" class="full-width text-white" label="Entrar"/>
           </q-card-actions>
         </q-form>
         <q-card-section class="text-center q-pa-sm">

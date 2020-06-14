@@ -6,7 +6,7 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input dense label="Usuário de destino" v-model="username" />
+          <q-input dense maxlength="40" label="Usuário de destino" v-model="username" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
@@ -33,7 +33,7 @@ export default {
   methods: {
     closeAndChat () {
       this.close()
-      this.$router.push({ name: 'chat' })
+      this.$router.push({ path: `/chat/${this.username}` })
     }
   }
 }
