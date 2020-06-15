@@ -6,18 +6,18 @@
         </q-card-section>
         <q-form class="forms" @submit="registerAPI">
           <q-card-section>
-                <q-input square v-model="user.firstName" type="text" label="Nome"
+                <q-input square v-model="user.first_name" type="text" label="Nome"
                   maxlength="100"
-                  :error-message="this.errors.firstName[0]"
-                  :error="this.errors.firstName.length > 0 && (this.user.firstName === this.old.firstName)">
+                  :error-message="this.errors.first_name[0]"
+                  :error="this.errors.first_name.length > 0 && (this.user.first_name === this.old.first_name)">
                     <template v-slot:prepend>
                         <q-icon name="person" />
                     </template>
                 </q-input>
-                <q-input square v-model="user.lastName" type="text" label="Sobrenome"
+                <q-input square v-model="user.last_name" type="text" label="Sobrenome"
                   maxlength="100"
-                  :error-message="this.errors.lastName[0]"
-                  :error="this.errors.lastName.length > 0 && (this.user.lastName === this.old.lastName)">
+                  :error-message="this.errors.last_name[0]"
+                  :error="this.errors.last_name.length > 0 && (this.user.last_name === this.old.last_name)">
                     <template v-slot:prepend>
                         <q-icon name="portrait" />
                     </template>
@@ -82,8 +82,8 @@ export default {
   data () {
     return {
       user: {
-        firstName: '',
-        lastName: '',
+        first_name: '',
+        last_name: '',
         username: '',
         password: ''
       },
@@ -92,8 +92,8 @@ export default {
       isPwd2: true,
       old: {},
       errors: {
-        firstName: [],
-        lastName: [],
+        first_name: [],
+        last_name: [],
         username: [],
         password: []
       }
@@ -118,8 +118,8 @@ export default {
             this.old = JSON.parse(JSON.stringify(this.user))
             const error = err.response.data
             this.errors = {
-              firstName: error.first_name ? error.first_name : [],
-              lastName: error.last_name ? error.last_name : [],
+              first_name: error.first_name ? error.first_name : [],
+              last_name: error.last_name ? error.last_name : [],
               username: error.username ? error.username : [],
               password: error.password ? error.password : []
             }
@@ -128,8 +128,8 @@ export default {
       }
     },
     emptyFields () {
-      if (this.user.firstName === '' ||
-          this.user.lastName === '' ||
+      if (this.user.first_name === '' ||
+          this.user.last_name === '' ||
           this.user.username === '' ||
           this.user.password === '' ||
           this.user.password !== this.passwordConfirmation) {
